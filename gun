@@ -1036,7 +1036,7 @@ while renderstepped:Wait() and IsDescendantOf(c,ws) do
 	elseif not equipped then
 		switchCurrentAnimation(1,3972151362)
 		shootingRotation=nil
-	elseif ((shootGuiButtonDown or IsMouseButtonPressed(uis,mb1)) and not (gs.MenuIsOpen or GetFocusedTextBox(uis))) and (ammo>0) then
+	elseif ((shootGuiButtonDown or IsMouseButtonPressed(uis,mb2)) and not (gs.MenuIsOpen or GetFocusedTextBox(uis))) and (ammo>0) then
 		local track=switchCurrentAnimation(1,4713811763,shootingSpeed)
 		if not shootingCon then
 			shootingCon=Connect(track.DidLoop,function()
