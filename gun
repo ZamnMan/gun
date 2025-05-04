@@ -704,10 +704,10 @@ Connect(i35.MouseButton1Click,function()
 	processInput(crouchKeybind)
 end)
 local shootGuiButtonDown=false
-Connect(i27.MouseButton2Down,function()
+Connect(i27.MouseButton1Down,function()
 	shootGuiButtonDown=true
 end)
-Connect(i27.MouseButton2Up,function()
+Connect(i27.MouseButton1Up,function()
 	shootGuiButtonDown=false
 end)
 
