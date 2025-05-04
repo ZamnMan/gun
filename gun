@@ -101,7 +101,7 @@ local f=Font.new
 local cs=ColorSequence.new
 local csk=ColorSequenceKeypoint.new
 
-local mb2=e.UserInputType.MouseButton2
+local mb1=e.UserInputType.MouseButton1
 local mouseBehaviorLockCenter=e.MouseBehavior.LockCenter
 
 local IsA=game.IsA
@@ -694,20 +694,20 @@ Connect(uis.InputBegan,function(input)
 	end
 	processInput(input.KeyCode)
 end)
-Connect(i2.MouseButton2Click,function()
+Connect(i2.MouseButton1Click,function()
 	processInput(reloadKeybind)
 end)
-Connect(i10.MouseButton2Click,function()
+Connect(i10.MouseButton1Click,function()
 	processInput(equipKeybind)
 end)
-Connect(i35.MouseButton2Click,function()
+Connect(i35.MouseButton1Click,function()
 	processInput(crouchKeybind)
 end)
 local shootGuiButtonDown=false
-Connect(i27.MouseButton2Down,function()
+Connect(i27.MouseButton1Down,function()
 	shootGuiButtonDown=true
 end)
-Connect(i27.MouseButton2Up,function()
+Connect(i27.MouseButton1Up,function()
 	shootGuiButtonDown=false
 end)
 
@@ -1036,7 +1036,7 @@ while renderstepped:Wait() and IsDescendantOf(c,ws) do
 	elseif not equipped then
 		switchCurrentAnimation(1,3972151362)
 		shootingRotation=nil
-	elseif ((shootGuiButtonDown or IsMouseButtonPressed(uis,mb2)) and not (gs.MenuIsOpen or GetFocusedTextBox(uis))) and (ammo>0) then
+	elseif ((shootGuiButtonDown or IsMouseButtonPressed(uis,mb1)) and not (gs.MenuIsOpen or GetFocusedTextBox(uis))) and (ammo>0) then
 		local track=switchCurrentAnimation(1,4713811763,shootingSpeed)
 		if not shootingCon then
 			shootingCon=Connect(track.DidLoop,function()
