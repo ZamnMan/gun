@@ -101,7 +101,7 @@ local f=Font.new
 local cs=ColorSequence.new
 local csk=ColorSequenceKeypoint.new
 
-local mb1=e.UserInputType.MouseButton4
+local mb1=e.UserInputType.MouseButton2
 
 local mouseBehaviorLockCenter=e.MouseBehavior.LockCenter
 
