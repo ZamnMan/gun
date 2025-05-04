@@ -704,10 +704,10 @@ Connect(i35.MouseButton1Click,function()
 	processInput(crouchKeybind)
 end)
 local shootGuiButtonDown=false
-Connect(i27.MouseButton1Down,function()
+Connect(i27.MouseButton2Down,function()
 	shootGuiButtonDown=true
 end)
-Connect(i27.MouseButton1Up,function()
+Connect(i27.MouseButton2Up,function()
 	shootGuiButtonDown=false
 end)
 
@@ -1127,6 +1127,68 @@ end
 for i,v in next,healthbarf do
 	v(-maxHealth)
 end
+
+local cam = workspace.CurrentCamera
+local plr = game.Players.LocalPlayer
+local char = plr.Character or plr.CharacterAdded:Wait()
+
+wait(.01)
+
+cam.CameraType = Enum.CameraType.Scriptable -- set the camera to scriptable as an example (should work with any camera type)
+cam.CFrame = CFrame.new(0, 0, 0) -- send the camera to some random position as part of the example
+
+wait(.01)
+
+-- The following is where I change the camera back to normal
+cam.CameraType = Enum.CameraType.Custom -- Set camera type back to what it is originally (player cameras are set to 'Custom' by default)
+cam.CameraSubject = char.Humanoid -- in case of any change that has happened to the camera subject, I set it back to the character's humanoid
+
+local RunService = game:GetService("RunService");
+local Player = game.Players.LocalPlayer;
+local Character = Player.Character or Player.CharacterAdded:Wait();
+local Camera = game.Workspace.CurrentCamera;
+local Head = Character:WaitForChild("Head");
+
+local FPMaximumDistance = 0.6; -- For scalability, but keep it at 0.6 since it is the right distance.
+local FirstPersonLocalTransparency = 0;
+local ThirdPresonLocalTransparency = 0;
+
+local function SetCharacterLocalTransparency(transparency)
+	for i,v in pairs(Character:GetChildren()) do
+		if (v:IsA("BasePart")) and (v.Name ~= "Head") then -- Only baseparts have a LocalTransparencyModifier property.
+			v.LocalTransparencyModifier = transparency;
+		elseif (v:IsA("Accessory")) and (v:FindFirstChild("Handle")) then
+			if v.Handle:FindFirstChild("AccessoryWeld").Part1 == Head then
+				
+			else
+				v:FindFirstChild("Handle").LocalTransparencyModifier = transparency;
+			end
+		end
+	end
+end
+
+RunService.RenderStepped:Connect(function()
+   local isfirstperson = (Head.CFrame.Position - Camera.CFrame.Position).Magnitude < FPMaximumDistance; -- Determine wether we are in first person
+   if (isfirstperson) then
+      SetCharacterLocalTransparency(FirstPersonLocalTransparency);
+   else
+      SetCharacterLocalTransparency(ThirdPresonLocalTransparency);
+   end
+end)
+
+local plr = game:GetService("Players").LocalPlayer
+local char = plr.Character
+local hum = char:WaitForChild("Humanoid")
+local rootpart = char:WaitForChild("HumanoidRootPart")
+local head = char:WaitForChild("Head")
+
+game:GetService("RunService"):BindToRenderStep("CameraOffset", Enum.RenderPriority.Camera.Value - 1, function()
+	local offset = (rootpart.CFrame * CFrame.new(0, 1.25, 0)):pointToObjectSpace(head.CFrame.p)
+	hum.CameraOffset = offset
+end)
+
+local plr = game.Players.LocalPlayer
+
 steppedCon:Disconnect()
 rendersteppedCon:Disconnect()
 heartbeatCon:Disconnect()
